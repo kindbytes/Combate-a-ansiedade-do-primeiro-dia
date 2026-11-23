@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Combate a ansiedade do primeiro dia</title>
+    <style>
+        :root {
+            --bg: #f6f7f9;
+            --card: #fff;
+            --fg: #1f2328;
+            --mut: #5b6470;
+            --bd: #dde1e6;
+            --ac: #1d7a46;
+            --acbg: #e3f4ea;
+            --bad: #b3261e;
+            --hd: #eef0f3;
+            --tg: #fff4c2;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px)
+        }
+
+        @media (prefers-color-scheme:dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #15181c;
+                --card: #1e2227;
+                --fg: #e8eaed;
+                --mut: #9aa3ad;
+                --bd: #343a41;
+                --ac: #4cc27f;
+                --acbg: #1d3326;
+                --bad: #ff8a80;
+                --hd: #2a2f35;
+                --tg: #4a4219;
+                color-scheme: dark
+            }
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #15181c;
+            --card: #1e2227;
+            --fg: #e8eaed;
+            --mut: #9aa3ad;
+            --bd: #343a41;
+            --ac: #4cc27f;
+            --acbg: #1d3326;
+            --bad: #ff8a80;
+            --hd: #2a2f35;
+            --tg: #4a4219;
+            color-scheme: dark
+        }
+
+        html {
+            scroll-padding-top: env(safe-area-inset-top, 0px)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--fg);
+            font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif
+        }
+
+        .wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 16px
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            margin: .2em 0
+        }
+
+        .bar {
+            height: 8px;
+            background: var(--hd);
+            border-radius: 99px;
+            overflow: hidden;
+            margin: 8px 0 12px
+        }
+
+        .bar i {
+            display: block;
+            height: 100%;
+            background: var(--ac);
+            width: 0;
+            transition: width .3s
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px
+        }
+
+        .card p {
+            margin: .3em 0
+        }
+
+        code {
+            font-family: ui-monospace, Consolas, monospace;
+            background: var(--hd);
+            padding: 1px 6px;
+            border-radius: 5px
+        }
+
+        .tip {
+            background: var(--acbg);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-top: 8px
+        }
+
+        .ok {
+            color: var(--ac);
+            font-weight: 700
+        }
+
+        .row {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 8px;
+            padding: 7px 13px;
+            font: inherit;
+            cursor: pointer;
+            background: var(--ac);
+            color: #fff
+        }
+
+        .btn.g {
+            background: var(--hd);
+            color: var(--fg)
+        }
+
+        .fb {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px
+        }
+
+        #nb {
+            min-width: 54px;
+            text-align: center;
+            border: 1px solid var(--bd);
+            background: var(--hd);
+            border-radius: 8px;
+            padding: 7px 8px;
+            font-weight: 700
+        }
+
+        #fx {
+            flex: 1;
+            min-width: 0;
+            font: inherit;
+            font-family: ui-monospace, Consolas, monospace;
+            padding: 7px 10px;
+            border: 1px solid var(--bd);
+            border-radius: 8px;
+            background: var(--card);
+            color: var(--fg)
+        }
+
+        .tw {
+            overflow-x: auto;
+            border: 1px solid var(--bd);
+            border-radius: 8px;
+            background: var(--card)
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%
+        }
+
+        th,
+        td {
+            border: 1px solid var(--bd);
+            padding: 4px 10px;
+            white-space: nowrap;
+            min-width: 92px;
+            height: 30px;
+            cursor: cell;
+            user-select: none
+        }
+
+        th {
+            background: var(--hd);
+            color: var(--mut);
+            font-weight: 600;
+            text-align: center;
+            min-width: 34px;
+            cursor: default
+        }
+
+        tr:first-child th {
+            min-width: 92px
+        }
+
+        tr:first-child th:first-child {
+            min-width: 34px
+        }
+
+        td.h {
+            font-weight: 700;
+            background: var(--hd)
+        }
+
+        td.tg {
+            background: var(--tg)
+        }
+
+        td.sel {
+            outline: 2px solid var(--ac);
+            outline-offset: -2px
+        }
+
+        .stats {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 8px 0
+        }
+
+        .stats span {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: 10px;
+            padding: 6px 12px
+        }
+
+        .tree {
+            font: 14px/1.15 ui-monospace, Consolas, monospace;
+            color: var(--ac);
+            width: max-content;
+            max-width: 100%;
+            overflow-x: auto;
+            margin: 10px auto;
+            white-space: pre
+        }
+
+        .gs {
+            color: #e6a700
+        }
+
+        .ns {
+            color: #e5484d
+        }
+
+        .mut {
+            color: var(--mut);
+            margin: 4px 0
+        }
+
+        .cal {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+            margin-top: 12px
+        }
+
+        .day {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            text-align: left;
+            font: inherit;
+            color: var(--fg);
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: 12px;
+            padding: 10px;
+            cursor: pointer
+        }
+
+        .day i {
+            font-style: normal;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--ac)
+        }
+
+        .day span {
+            font-size: .9rem
+        }
+
+        .day em {
+            font-style: normal;
+            font-size: .8rem;
+            color: var(--mut)
+        }
+
+        .day.dn {
+            background: var(--acbg);
+            border-color: var(--ac)
+        }
+
+        .day.lk {
+            opacity: .5;
+            cursor: not-allowed
+        }
+
+        html:root:not([data-theme="x"]) {
+            --bg: #0b0d10;
+            --card: #11151a;
+            --fg: #d7dde4;
+            --mut: #7d8793;
+            --bd: #252c34;
+            --ac: #7ba7e0;
+            --acbg: #142033;
+            --hd: #171c22;
+            --tg: #3a3412;
+            --bad: #ff7b72;
+            color-scheme: dark
+        }
+
+        body {
+            font: 14px/1.6 ui-monospace, "SF Mono", Menlo, Consolas, monospace
+        }
+
+        h1 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: .02em;
+            margin: .4em 0
+        }
+
+        h1::before {
+            content: "$ ";
+            color: var(--ac)
+        }
+
+        .cur {
+            color: var(--ac);
+            animation: bl 1s steps(1) infinite
+        }
+
+        @keyframes bl {
+            50% {
+                opacity: 0
+            }
+        }
+
+        .bar {
+            height: 3px;
+            border-radius: 0
+        }
+
+        .card,
+        .tw,
+        #nb,
+        #fx,
+        .btn,
+        code {
+            border-radius: 4px
+        }
+
+        .tip {
+            background: var(--acbg);
+            border-left: 3px solid var(--ac);
+            border-radius: 0 4px 4px 0
+        }
+
+        code {
+            color: var(--ac)
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--ac);
+            border: 1px solid var(--ac);
+            padding: 6px 12px
+        }
+
+        .btn:hover {
+            background: var(--acbg)
+        }
+
+        .btn.g {
+            color: var(--mut);
+            border-color: var(--bd)
+        }
+
+        .btn.g:hover {
+            color: var(--fg);
+            background: var(--hd)
+        }
+
+        th {
+            font-weight: 500
+        }
+
+        td.h {
+            color: var(--ac)
+        }
+
+        html:root:not([data-theme="x"]) {
+            --fg: #d3d9e0;
+            --mut: #8b96a3;
+            --bd: #2a313a
+        }
+
+        body {
+            font: 16px/1.7 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif
+        }
+
+        .wrap {
+            max-width: 820px;
+            padding: 24px 16px
+        }
+
+        h1 {
+            font-size: 1.1rem;
+            margin: 0 0 14px
+        }
+
+        .bar {
+            margin: 0 0 20px
+        }
+
+        .card {
+            padding: 20px 22px;
+            margin-bottom: 20px
+        }
+
+        .card p {
+            margin: 0 0 12px;
+            max-width: 62ch
+        }
+
+        .card p:last-child {
+            margin-bottom: 0
+        }
+
+        .tip {
+            padding: 12px 16px;
+            margin: 14px 0;
+            line-height: 1.8;
+            max-width: 62ch
+        }
+
+        code {
+            font: .9em ui-monospace, Menlo, Consolas, monospace;
+            padding: 2px 6px
+        }
+
+        .row {
+            margin-top: 18px;
+            gap: 10px
+        }
+
+        .btn {
+            font-size: .9rem;
+            padding: 8px 14px
+        }
+
+        .btn.g {
+            border-color: transparent;
+            padding: 8px 10px
+        }
+
+        .fb {
+            margin-bottom: 10px
+        }
+
+        #fx,
+        #nb {
+            font-size: .9rem
+        }
+
+        td,
+        th {
+            font-size: .9rem
+        }
+
+        .tw~.tip {
+            background: none;
+            border-left: 0;
+            color: var(--mut);
+            font-size: .85rem;
+            padding: 12px 0;
+            margin: 10px 0;
+            max-width: none
+        }
+
+        .st {
+            list-style: none;
+            counter-reset: s;
+            margin: 10px 0 0;
+            padding: 0
+        }
+
+        .st li {
+            counter-increment: s;
+            position: relative;
+            padding: 3px 0 3px 38px;
+            margin: 0 0 8px;
+            min-height: 28px
+        }
+
+        .st li::before {
+            content: counter(s);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            width: 26px;
+            height: 26px;
+            border: 1px solid var(--ac);
+            border-radius: 50%;
+            color: var(--ac);
+            font-size: .8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden
+        }
+
+        .wrap {
+            max-width: 1200px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 16px
+        }
+
+        #work {
+            flex: 1;
+            min-height: 0;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+            grid-template-rows: auto minmax(0, 1fr) auto auto;
+            column-gap: 20px
+        }
+
+        #ms {
+            grid-column: 1;
+            grid-row: 1/5;
+            min-height: 0;
+            overflow-y: auto;
+            margin: 0
+        }
+
+        .fb {
+            grid-column: 2;
+            grid-row: 1
+        }
+
+        .tw {
+            grid-column: 2;
+            grid-row: 2;
+            min-height: 0;
+            overflow: auto
+        }
+
+        .tw~.tip {
+            grid-column: 2;
+            grid-row: 3
+        }
+
+        #work>.row {
+            grid-column: 2;
+            grid-row: 4;
+            margin-top: 0;
+            padding-bottom: 4px
+        }
+
+        @media (max-width:1000px) {
+            #work {
+                grid-template-columns: minmax(0, 1fr);
+                grid-template-rows: minmax(0, 45%) auto minmax(0, 1fr) auto
+            }
+
+            #ms {
+                grid-column: 1;
+                grid-row: 1;
+                margin-bottom: 10px
+            }
+
+            .fb {
+                grid-column: 1;
+                grid-row: 2
+            }
+
+            .tw {
+                grid-column: 1;
+                grid-row: 3
+            }
+
+            .tw~.tip {
+                display: none
+            }
+
+            #work>.row {
+                grid-column: 1;
+                grid-row: 4
+            }
+        }
+
+        .app {
+            flex: 1;
+            min-height: 0;
+            display: grid;
+            grid-template-columns: 220px minmax(0, 1fr);
+            gap: 16px
+        }
+
+        .main {
+            min-height: 0;
+            display: flex;
+            flex-direction: column
+        }
+
+        #home {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto
+        }
+
+        #nav {
+            min-height: 0;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-right: 4px
+        }
+
+        .ni {
+            position: relative;
+            display: block;
+            width: 100%;
+            text-align: left;
+            font: inherit;
+            color: var(--fg);
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: 4px;
+            padding: 7px 30px 7px 10px;
+            cursor: pointer
+        }
+
+        .ni b {
+            display: block;
+            color: var(--ac);
+            font-size: .85rem;
+            font-weight: 600
+        }
+
+        .ni small {
+            display: block;
+            color: var(--mut);
+            font-size: .78rem;
+            line-height: 1.3
+        }
+
+        .ni span {
+            position: absolute;
+            right: 8px;
+            top: 8px
+        }
+
+        .ni.on {
+            border-color: var(--ac);
+            background: var(--acbg)
+        }
+
+        .ni.lk {
+            opacity: .5;
+            cursor: not-allowed
+        }
+
+        @media (max-width:1000px) {
+            .app {
+                grid-template-columns: minmax(0, 1fr);
+                grid-template-rows: auto minmax(0, 1fr);
+                gap: 10px
+            }
+
+            #nav {
+                flex-direction: row;
+                overflow-x: auto;
+                overflow-y: hidden;
+                padding: 0 0 4px
+            }
+
+            .ni {
+                width: auto;
+                min-width: 135px;
+                flex: none
+            }
+        }
+
+        @media (min-width:1001px) {
+            .wrap {
+                max-width: 1680px
+            }
+
+            .app {
+                grid-template-columns: 190px minmax(0, 1fr)
+            }
+
+            #work {
+                grid-template-columns: minmax(0, .8fr) minmax(0, 1.4fr);
+                column-gap: 16px
+            }
+        }
+
+        td {
+            min-width: 70px;
+            padding: 4px 7px
+        }
+
+        th {
+            padding: 4px 6px
+        }
+
+        tr:first-child th {
+            min-width: 70px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <h1>Combate a ansiedade do primeiro dia<span class="cur">_</span></h1>
+        <div class="bar"><i id="pb"></i></div>
+        <div class="app">
+            <nav id="nav"></nav>
+            <main class="main">
+                <div id="home"></div>
+                <div id="work">
+                    <div class="card" id="ms"></div>
+                    <div class="fb">
+                        <div id="nb">A1</div><input type="text" id="fx" placeholder="Clique numa célula e digite aqui…"
+                            autocomplete="off" autocapitalize="off">
+                    </div>
+                    <div class="tw">
+                        <table id="g"></table>
+                    </div>
+                    <div class="tip">Como usar: clique numa célula, digite na barra acima da planilha e aperte Enter.
+                        Dentro de uma fórmula, <b>clique nas células</b> para inserir a referência (por exemplo, digite
+                        <code>=SOMA(</code>, clique em D2, digite <code>:</code> e clique em D8).
+                    </div>
+                    <div class="row"><button class="btn g" id="rs">Restaurar planilha</button></div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>
+        var HD = ["Nome", "Área", "Cargo", "Salário", "Horas extras", "Faltas", "Status"];
+        var RW = [["Ana Souza", "Financeiro", "Analista", 4200, 6, 0], ["Bruno Lima", "Frota", "Motorista", 3800, 12, 1], ["Carla Dias", "RH", "Assistente", 3200, 2, 0], ["Diego Alves", "Frota", "Mecânico", 3500, 8, 0], ["Elisa Rocha", "Frota", "Motorista", 3900, 14, 1], ["Felipe Costa", "RH", "Analista", 4500, 8, 0], ["Helloah Sarah Pinto Marques Teixeira", "RH", "Jovem Aprendiz", 1500, 0, 0]];
+        var LB = ["Folha total", "Salário médio", "Colaboradores da Frota", "Folha da Frota", "Salário do Felipe", "Maior salário", "Quem faltou", "Hora extra do Bruno", "Horas extras da Frota", "Alerta do motorista", "Atenção dupla", "Tempo de casa"];
+        function CL(i) { return String.fromCharCode(65 + i) }
+        function fresh() { var c = {}; HD.forEach(function (h, i) { c[CL(i) + 1] = h }); RW.forEach(function (r, j) { r.forEach(function (v, i) { c[CL(i) + (j + 2)] = String(v) }) }); LB.forEach(function (t, j) { c["A" + (10 + j)] = t }); c.C21 = "01/03/2025"; return c }
+        var cells = fresh(), done = {}, learned = {}, mi = 0, sel = "A1", dirty = false, hint = false, depth = 0, intro = 0, ip = 0, gold = {}, hinted = {}, rev = 0, view = "day";
+        try { var sv = JSON.parse(localStorage.getItem("xlrh3") || "null"); if (sv) { cells = sv.c; done = sv.d; intro = sv.i || 0; gold = sv.g || {}; hinted = sv.h || {} } } catch (e) { }
+        { var fr0 = fresh(); for (var k0 in fr0) if (cells[k0] === undefined) cells[k0] = fr0[k0] }
+        if (cells.A8 == "Gabi Nunes" || cells.A8 == "HelloahSarah Pinto Marques Teixeira" || cells.A8 == "Helloah  Sarah Pinto Marques Teixeira") cells.A8 = "Helloah Sarah Pinto Marques Teixeira";
+        function save() { try { localStorage.setItem("xlrh3", JSON.stringify({ c: cells, d: done, i: intro, g: gold, h: hinted })) } catch (e) { } }
+        function isNum(v) { return typeof v == "number" && !isNaN(v) }
+        function flat(a) { var o = []; (function f(x) { for (var i = 0; i < x.length; i++) { Array.isArray(x[i]) ? f(x[i]) : o.push(x[i]) } })(a); return o }
+        function match(v, c) {
+            if (typeof c == "number") return v == c; var m = /^(>=|<=|<>|>|<|=)?(.*)$/.exec(String(c)), op = m[1] || "=", x = m[2], n = Number(x), un = x !== "" && !isNaN(n);
+            if (un && !isNum(v)) return op == "<>"; var a = un ? v : String(v).toLowerCase(), b = un ? n : x.toLowerCase();
+            return op == "=" ? a == b : op == "<>" ? a != b : op == ">" ? a > b : op == "<" ? a < b : op == ">=" ? a >= b : a <= b
+        }
+        var FN = {
+            SOMA: function () { return flat(arguments).filter(isNum).reduce(function (a, b) { return a + b }, 0) },
+            MEDIA: function () { var n = flat(arguments).filter(isNum); if (!n.length) throw 0; return n.reduce(function (a, b) { return a + b }, 0) / n.length },
+            MAXIMO: function () { return Math.max.apply(null, flat(arguments).filter(isNum)) },
+            MINIMO: function () { return Math.min.apply(null, flat(arguments).filter(isNum)) },
+            CONTSE: function (r, c) { return flat([r]).filter(function (v) { return match(v, c) }).length },
+            SOMASE: function (r, c, s) { var a = flat([r]), b = flat([s]), t = 0; a.forEach(function (v, i) { if (match(v, c) && isNum(b[i])) t += b[i] }); return t },
+            SE: function (c, a, b) { return c ? a : (b === undefined ? false : b) },
+            PROCV: function (v, t, c) { for (var i = 0; i < t.length; i++) { if (String(t[i][0]).toLowerCase() == String(v).toLowerCase()) return t[i][c - 1] } return "#N/D" }
+        };
+        function C(ref) { var r = cells[ref]; if (r == null || r === "") return 0; if (r[0] == "=") return ev(r); var n = Number(r.replace(",", ".")); return isNaN(n) ? r : n }
+        function R(a, b) { var p = /([A-Z]+)(\d+)/, x = p.exec(a), y = p.exec(b), o = []; for (var r = +x[2]; r <= +y[2]; r++) { var row = []; for (var c = x[1].charCodeAt(0); c <= y[1].charCodeAt(0); c++)row.push(C(String.fromCharCode(c) + r)); o.push(row) } return o }
+        function tr(f) {
+            return f.replace(/[“”]/g, '"').split(/("[^"]*")/).map(function (s, i) {
+                if (i % 2) return s; s = s.replace(/(\d),(\d)/g, "$1.$2").replace(/(\d+(?:\.\d+)?)%/g, "($1/100)");
+                s = s.replace(/([A-Za-zÀ-ÿ][A-Za-zÀ-ÿ.]*)\(/g, function (m, n) { var k = n.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().replace(/\./g, ""); if (!FN[k]) throw 0; return "FN." + k + "(" });
+                s = s.replace(/\$?([A-Za-z]{1,2})\$?(\d+)(?::\$?([A-Za-z]{1,2})\$?(\d+))?/g, function (m, a, b, c, d) { return c ? '$R("' + (a + b).toUpperCase() + '","' + (c + d).toUpperCase() + '")' : '$C("' + (a + b).toUpperCase() + '")' });
+                return s.replace(/;/g, ",").replace(/<>/g, "!=").replace(/(^|[^<>!=])=(?!=)/g, "$1==").replace(/\^/g, "**")
+            }).join("")
+        }
+        function ev(raw) { try { if (++depth > 60) throw 0; return new Function("FN", "$C", "$R", "return (" + tr(raw.slice(1)) + ")")(FN, C, R) } catch (e) { return "#ERRO!" } finally { depth-- } }
+        function shift(raw, d) { return raw.split(/("[^"]*")/).map(function (s, i) { return i % 2 ? s : s.replace(/(\$?[A-Za-z]{1,2})(\$?)(\d+)/g, function (m, a, b, c) { return b ? m : a + (+c + d) }) }).join("") }
+        function val(ref) { return C(ref) }
+        function isF(ref) { return (cells[ref] || "").trim()[0] == "=" }
+        function near(a, b) { return isNum(a) && Math.abs(a - b) < 0.01 }
+        function col(l) { var o = []; for (var r = 2; r <= 8; r++)o.push(C(l + r)); return o }
+        function sm(a) { return a.reduce(function (x, y) { return x + y }, 0) }
+        function nz(s) { return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() }
+        var M = [
+            { t: "Folha total", c: "D10", x: "Na célula <b>D10</b>, some todos os salários (D2 até D8). A função <code>SOMA</code> soma um intervalo inteiro.", h: "=SOMA(D2:D8)", ok: function () { return isF("D10") && near(val("D10"), sm(col("D"))) } },
+            { t: "Salário médio", c: "D11", x: "Na <b>D11</b>, calcule o salário médio. A função <code>MÉDIA</code> funciona igual à SOMA.", h: "=MÉDIA(D2:D8)", ok: function () { return isF("D11") && near(val("D11"), sm(col("D")) / 7) } },
+            { t: "Quantos são da Frota?", c: "D12", x: "Na <b>D12</b>, conte quantas pessoas são da área de Frota (motoristas e mecânicos, coluna B). <code>CONT.SE(intervalo; critério)</code> conta só o que atende ao critério.", h: "=CONT.SE(B2:B8;\"Frota\")", ok: function () { return isF("D12") && val("D12") === col("B").filter(function (v) { return v == "Frota" }).length } },
+            { t: "Folha da Frota", c: "D13", x: "Na <b>D13</b>, some os salários apenas de quem é da Frota. <code>SOMASE(onde procurar; critério; o que somar)</code>.", h: "=SOMASE(B2:B8;\"Frota\";D2:D8)", ok: function () { var b = col("B"), d = col("D"), t = 0; b.forEach(function (v, i) { if (v == "Frota") t += d[i] }); return isF("D13") && near(val("D13"), t) } },
+            {
+                t: "Status de faltas", c: "G2", x: "Na <b>G2</b>, mostre “Atenção” se a pessoa tiver 1 falta ou mais (coluna F), senão “OK”. Use <code>SE(condição; se verdadeiro; se falso)</code>. Quando acertar, a fórmula é copiada para as outras linhas.", h: "=SE(F2>=1;\"Atenção\";\"OK\")",
+                ok: function () { if (!isF("G2")) return false; for (var r = 2; r <= 8; r++) { if (nz(ev(shift(cells.G2, r - 2))) != (C("F" + r) >= 1 ? "atencao" : "ok")) return false } return true },
+                af: function () { for (var r = 3; r <= 8; r++)cells["G" + r] = shift(cells.G2, r - 2) }
+            },
+            { t: "Salário do Felipe", c: "D14", x: "Na <b>D14</b>, busque o salário do Felipe Costa. <code>PROCV(o que procurar; tabela; nº da coluna; 0)</code> procura na primeira coluna da tabela e devolve outra coluna.", h: "=PROCV(\"Felipe Costa\";A2:D8;4;0)", ok: function () { return isF("D14") && near(val("D14"), C("D6") + 0 * 0 + (C("A7") == "Felipe Costa" ? C("D7") - C("D6") : 0)) } },
+            { t: "Maior salário", c: "D15", x: "Na <b>D15</b>, descubra o maior salário da empresa com <code>MÁXIMO</code>.", h: "=MÁXIMO(D2:D8)", ok: function () { return isF("D15") && near(val("D15"), Math.max.apply(null, col("D"))) } }];
+        var LS = [
+            "<p>A função <code>SOMA</code> soma vários números de uma vez, sem precisar somar célula por célula.</p><div class='tip'>Estrutura: <code>=SOMA(intervalo)</code><br>Um <b>intervalo</b> usa dois pontos: <code>E2:E8</code> quer dizer “de E2 até E8”.<br>Exemplo: <code>=SOMA(E2:E8)</code> soma todas as horas extras.</div><p><b>Passo a passo</b></p><ol class='st'><li>Clique na célula onde o resultado vai aparecer.</li><li>Na barra de fórmulas, digite <code>=SOMA(</code></li><li>Clique na primeira célula do intervalo (E2), digite <code>:</code> e clique na última (E8).</li><li>Digite <code>)</code> e aperte Enter.</li></ol>",
+            "<p>A função <code>MÉDIA</code> soma tudo e divide pela quantidade de valores. É usada igual à SOMA.</p><div class='tip'>Estrutura: <code>=MÉDIA(intervalo)</code><br>Exemplo: <code>=MÉDIA(F2:F8)</code> calcula a média de faltas por pessoa.</div>",
+            "<p>O <code>CONT.SE</code> conta quantas células atendem a uma condição.</p><div class='tip'>Estrutura: <code>=CONT.SE(onde procurar; o que procurar)</code><br>Textos ficam entre aspas, e o ponto e vírgula separa as partes.<br>Exemplo: <code>=CONT.SE(C2:C8;&quot;Analista&quot;)</code> conta quantos analistas existem.</div>",
+            "<p>O <code>SOMASE</code> soma só os valores que atendem a uma condição. É como o CONT.SE, mas com uma parte a mais: o que somar.</p><div class='tip'>Estrutura: <code>=SOMASE(onde procurar; o que procurar; o que somar)</code><br>Exemplo: <code>=SOMASE(B2:B8;&quot;RH&quot;;E2:E8)</code> soma as horas extras apenas de quem é do RH.</div>",
+            "<p>O <code>SE</code> faz a planilha tomar uma decisão. Ele tem três partes: um teste, o que mostrar se o teste for verdadeiro e o que mostrar se for falso.</p><div class='tip'>Estrutura: <code>=SE(teste; se verdadeiro; se falso)</code><br>Exemplo: <code>=SE(D2&gt;3000;&quot;Alto&quot;;&quot;Baixo&quot;)</code> mostra “Alto” se o salário passar de 3000.<br>Comparações: <code>&gt;</code> maior, <code>&lt;</code> menor, <code>&gt;=</code> maior ou igual, <code>=</code> igual, <code>&lt;&gt;</code> diferente.</div>",
+            "<p>O <code>PROCV</code> funciona como procurar um nome numa lista e ler outra informação da mesma linha.</p><div class='tip'>Estrutura: <code>=PROCV(o que procurar; tabela; número da coluna; 0)</code><br>O <b>número da coluna</b> conta a partir da primeira coluna da tabela (A = 1, B = 2…). O <code>0</code> no final pede o valor exato.<br>Exemplo: <code>=PROCV(&quot;Carla Dias&quot;;A2:F8;5;0)</code> devolve as horas extras da Carla (5ª coluna de A até F).</div>",
+            "<p>As funções <code>MÁXIMO</code> e <code>MÍNIMO</code> acham o maior e o menor valor de um intervalo.</p><div class='tip'>Estrutura: <code>=MÁXIMO(intervalo)</code><br>Exemplo: <code>=MÁXIMO(E2:E8)</code> mostra quem fez mais horas extras (o valor). <code>=MÍNIMO(E2:E8)</code> mostra o menor.</div>"];
+        M[5].ok = function () { var a = col("A"), d = col("D"), i = a.indexOf("Felipe Costa"); return isF("D14") && i >= 0 && near(val("D14"), d[i]) };
+        M.push(
+            { t: "Quem faltou?", c: "D16", x: 'Na <b>D16</b>, conte quantas pessoas tiveram <b>mais de 0 faltas</b> (coluna F). No critério dá para usar sinais, como <code>">0"</code>.', h: '=CONT.SE(F2:F8;">0")', ok: function () { return isF("D16") && val("D16") === col("F").filter(function (v) { return v > 0 }).length } },
+            { t: "Hora extra do Bruno", c: "D17", x: 'Na <b>D17</b>, calcule quanto o Bruno recebe de horas extras. Valor da hora = salário ÷ 220 (horas de trabalho no mês). A hora extra rende 50% a mais, ou seja, ×1,5 (no Excel, use <code>*</code>). Monte: salário ÷ 220 × 1,5 × horas extras.', h: '=D3/220*1,5*E3', ok: function () { return isF("D17") && near(val("D17"), C("D3") / 220 * 1.5 * C("E3")) } },
+            { t: "Horas extras da Frota", c: "D18", x: 'Na <b>D18</b>, some as horas extras (coluna E) apenas de quem é da Frota. É o mesmo raciocínio do SOMASE, com outra coluna para somar.', h: '=SOMASE(B2:B8;"Frota";E2:E8)', ok: function () { var b = col("B"), e = col("E"), t = 0; b.forEach(function (v, i) { if (v == "Frota") t += e[i] }); return isF("D18") && near(val("D18"), t) } });
+        LS.push("<p>Dá para usar sinais dentro do critério do <code>CONT.SE</code> e contar valores maiores ou menores que algo. No RH isso serve para ver quem teve falta ou atraso.</p><div class='tip'>Estrutura: <code>=CONT.SE(intervalo;&quot;&gt;0&quot;)</code><br>O sinal e o número ficam juntos, dentro das aspas.<br>Exemplo: <code>=CONT.SE(D2:D8;&quot;&gt;=4000&quot;)</code> conta quem ganha 4000 ou mais.</div>",
+            "<p>No RH, uma conta que aparece sempre é a da hora extra. Primeiro se acha o valor de uma hora normal, depois se aplica o adicional.</p><div class='tip'>Valor da hora = salário ÷ 220<br>Hora extra com adicional de 50% = valor da hora × 1,5<br>Total = valor da hora × 1,5 × horas extras<br>Exemplo: <code>=D2/220*1,5*E2</code><br>O 220 é a jornada mensal de quem trabalha 44 horas por semana. Confirme sempre a regra com a gestora ou o contador, pois acordo ou convenção da empresa pode mudar o percentual.</div>",
+            "<p>O <code>SOMASE</code> serve para fechar números por área, algo que o RH faz o tempo todo para dividir custos entre setores.</p><div class='tip'>Exemplo: <code>=SOMASE(B2:B8;&quot;RH&quot;;F2:F8)</code> soma as faltas só do RH.</div>");
+        function nzf(r) { return nz(cells[r]).toUpperCase() }
+        function anyF(rx, v) { for (var r in cells) { if (isF(r) && rx.test(nzf(r)) && near(val(r), v)) return r } return null }
+        function fb(l, f) { return col(l).filter(f).length }
+        M[0].ok = function () { return !!anyF(/SOMA\(/, sm(col("D"))) };
+        M[1].ok = function () { return !!anyF(/MEDIA\(/, sm(col("D")) / 7) };
+        M[2].ok = function () { return !!anyF(/CONT\.SE\(/, fb("B", function (v) { return v == "Frota" })) };
+        M[3].ok = function () { var b = col("B"), d = col("D"), t = 0; b.forEach(function (v, i) { if (v == "Frota") t += d[i] }); return !!anyF(/SOMASE\(/, t) };
+        M[4].ok = function () { for (var r in cells) { var m = /^([A-Z]+)(\d+)$/.exec(r); if (!m || !isF(r) || !/(^|[^A-Z.])SE\(/.test(nzf(r)) || +m[2] < 2 || +m[2] > 8) continue; var good = true; for (var k = 2; k <= 8; k++) { if (nz(ev(shift(cells[r], k - m[2]))) != (C("F" + k) >= 1 ? "atencao" : "ok")) { good = false; break } } if (good) { M[4].r = r; return true } } return false };
+        M[4].af = function () { var r = M[4].r, m = /^([A-Z]+)(\d+)$/.exec(r); if (!m) return; for (var k = 2; k <= 8; k++) { if (k != +m[2]) cells[m[1] + k] = shift(cells[r], k - m[2]) } };
+        M[5].ok = function () { var a = col("A"), d = col("D"), i = a.indexOf("Felipe Costa"); return i >= 0 && !!anyF(/PROCV\(/, d[i]) };
+        M[6].ok = function () { return !!anyF(/MAXIMO\(/, Math.max.apply(null, col("D"))) };
+        M[7].ok = function () { return !!anyF(/CONT\.SE\(/, fb("F", function (v) { return v > 0 })) };
+        M[8].ok = function () { return !!anyF(/220/, C("D3") / 220 * 1.5 * C("E3")) };
+        M[9].ok = function () { var b = col("B"), e = col("E"), t = 0; b.forEach(function (v, i) { if (v == "Frota") t += e[i] }); return !!anyF(/SOMASE\(/, t) };
+
+        function pd(v) { var m = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(String(v)); return m ? new Date(+m[3], m[2] - 1, +m[1]) : null }
+        function hoje() { var d = new Date(); return ("0" + d.getDate()).slice(-2) + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear() }
+        FN.E = function () { return flat(arguments).every(Boolean) };
+        FN.OU = function () { return flat(arguments).some(Boolean) };
+        FN.HOJE = function () { return hoje() };
+        FN.DATADIF = function (a, b, u) { var x = pd(a), y = pd(b); if (!x || !y) throw 0; u = String(u).toUpperCase(); if (u == "D") return Math.floor((y - x) / 864e5); var m = (y.getFullYear() - x.getFullYear()) * 12 + y.getMonth() - x.getMonth() - (y.getDate() < x.getDate() ? 1 : 0); return u == "M" ? m : u == "Y" ? Math.floor(m / 12) : (function () { throw 0 })() };
+        function mesesHelloahSarah() { var x = pd("01/03/2025"), y = pd(hoje()); return (y.getFullYear() - x.getFullYear()) * 12 + y.getMonth() - x.getMonth() - (y.getDate() < x.getDate() ? 1 : 0) }
+        M.push(
+            { t: "Alerta do motorista", c: "D19", x: 'Na <b>D19</b>, mostre “Revisar” se o Bruno (linha 3) for <b>Motorista</b> <u>e</u> tiver mais de 10 horas extras. Senão, “OK”. Use <code>E(condição1; condição2)</code> dentro do SE: as duas precisam ser verdadeiras.', h: '=SE(E(C3="Motorista";E3>10);"Revisar";"OK")', ok: function () { return isF("D19") && /SE\(E\(/.test(nzf("D19")) && nz(val("D19")) == "revisar" } },
+            { t: "Atenção dupla", c: "D20", x: 'Na <b>D20</b>, mostre “Atenção” para a Elisa (linha 6) se ela tiver mais de 10 horas extras <u>ou</u> alguma falta. Senão, “OK”. Use <code>OU(condição1; condição2)</code>: basta uma ser verdadeira.', h: '=SE(OU(E6>10;F6>0);"Atenção";"OK")', ok: function () { return isF("D20") && /SE\(OU\(/.test(nzf("D20")) && nz(val("D20")) == "atencao" } },
+            { t: "Tempo de casa", c: "D21", x: 'A Helloah Sarah foi admitida em <b>01/03/2025</b> (célula C21). Na <b>D21</b>, calcule há quantos <b>meses</b> ela está na empresa. <code>HOJE()</code> devolve a data de hoje e <code>DATADIF(início; fim; "M")</code> conta os meses entre duas datas.', h: '=DATADIF(C21;HOJE();"M")', ok: function () { return isF("D21") && /DATADIF\(/.test(nzf("D21")) && /HOJE\(/.test(nzf("D21")) && val("D21") === mesesHelloahSarah() } });
+        LS.push("<p>Às vezes a regra tem <b>duas condições juntas</b>. Para isso, use <code>E</code> dentro do <code>SE</code>: o resultado só é verdadeiro se <b>todas</b> as condições forem verdadeiras.</p><div class='tip'>Estrutura: <code>=SE(E(condição1; condição2); se verdadeiro; se falso)</code><br>Exemplo: <code>=SE(E(B2=&quot;Frota&quot;;F2&gt;0);&quot;Revisar&quot;;&quot;OK&quot;)</code> marca quem é da Frota <b>e</b> faltou.<br>Se uma das duas for falsa, o resultado é “OK”.</div>",
+            "<p>O <code>OU</code> é parecido com o E, mas basta <b>uma</b> condição ser verdadeira.</p><div class='tip'>Estrutura: <code>=SE(OU(condição1; condição2); se verdadeiro; se falso)</code><br>Exemplo: <code>=SE(OU(D2&lt;2000;F2&gt;2);&quot;Ver&quot;;&quot;OK&quot;)</code> marca quem ganha menos de 2000 <b>ou</b> teve mais de 2 faltas.<br>Resumo: <b>E</b> = todas precisam valer. <b>OU</b> = uma já basta.</div>",
+            "<p>Datas são muito usadas no RH: tempo de casa, fim do contrato de experiência, férias e, numa transportadora, validade de CNH e de exame médico dos motoristas.</p><div class='tip'><code>=HOJE()</code> mostra a data de hoje e muda sozinha a cada dia.<br><code>=DATADIF(início; fim; &quot;M&quot;)</code> conta os meses entre duas datas. Use <code>&quot;Y&quot;</code> para anos e <code>&quot;D&quot;</code> para dias.<br>Exemplo: <code>=DATADIF(C2;HOJE();&quot;D&quot;)</code> mostra quantos dias se passaram desde a data de C2.<br>Dica: para ver quantos dias faltam para vencer a CNH, inverta: <code>=DATADIF(HOJE();data_da_CNH;&quot;D&quot;)</code>.</div>");
+        var FNM = ["SOMA", "MÉDIA", "CONT.SE", "SOMASE", "SE", "PROCV", "MÁXIMO", "CONT.SE com sinal", "Hora extra", "SOMASE por área", "SE com E", "SE com OU", "Datas"];
+        function renderNav() {
+            var n = document.getElementById("nav"), sy = n.scrollTop, sx = n.scrollLeft, nm = ["Primeiros passos"].concat(M.map(function (m) { return m.t })), tg = ["Básico"].concat(FNM), cu = view == "day" ? (inI() ? 0 : mi + 1) : -1;
+            var h = "<button class='ni" + (view == "home" ? " on" : "") + "' data-k='-1'><b>🏠 Início</b><small>Progresso e estrelas</small></button>";
+            nm.forEach(function (t, k) { var dn = k == 0 ? intro : done[k - 1], gl = k == 0 ? gold.i : gold[k - 1], lk = k > 0 && !intro; h += "<button class='ni" + (k == cu ? " on" : "") + (lk ? " lk" : "") + "' data-k='" + k + "'" + (lk ? " disabled" : "") + "><b>" + tg[k] + "</b><small>" + (k + 1) + ". " + t + "</small><span>" + (dn ? (gl ? "🌟" : "⭐") : lk ? "🔒" : "") + "</span></button>" });
+            n.innerHTML = h; n.scrollTop = sy; n.scrollLeft = sx
+        }
+        var IT = [
+            "<p><b>👋 Primeiros passos: o que é uma planilha?</b></p><p>No RH, boa parte do trabalho é organizar dados de colaboradores em planilhas como esta.</p><p>Uma planilha é uma tabela gigante. As <b>colunas</b> têm letras (A, B, C…) e as <b>linhas</b> têm números (1, 2, 3…).</p><div class='tip'>Cada quadradinho se chama <b>célula</b>, e o nome dela é a coluna + a linha. A célula onde a coluna <b>D</b> encontra a linha <b>2</b> é a <code>D2</code>. Aqui, ela guarda o salário da Ana.<br>Teste: clique em algumas células e veja o nome aparecer na caixinha à esquerda, acima da planilha.</div>",
+            "<p><b>✏️ Como escrever numa célula</b></p><p>Clique na célula e digite na <b>barra de fórmulas</b>, que fica logo acima da planilha. Aperte <b>Enter</b> para confirmar.</p><div class='tip'>Texto e números são digitados do mesmo jeito. Para apagar uma célula, deixe a barra vazia e aperte Enter.<br>Teste: clique na célula <code>A1</code>, mude o texto e aperte Enter. Para desfazer, use “Restaurar planilha”.</div>",
+            "<p><b>🧮 Fórmulas sempre começam com =</b></p><p>Quando você digita <code>=</code> no começo, o Excel entende que é uma conta, não um texto.</p><div class='tip'><code>=2+3</code> mostra 5. Os sinais são <code>+</code> somar, <code>-</code> subtrair, <code>*</code> multiplicar e <code>/</code> dividir.<br>Você também pode usar células na conta: <code>=D2+D3</code> soma o salário da Ana com o do Bruno. Se você mudar um desses salários, o resultado muda sozinho. Essa é a grande vantagem do Excel.</div>",
+            "<p><b>🧰 Funções e intervalos</b></p><p>Uma <b>função</b> é uma conta pronta, como a <code>SOMA</code>. Ela tem um nome e parênteses, e o que vai dentro dos parênteses diz com o que ela deve trabalhar.</p><div class='tip'>Um <b>intervalo</b> usa dois pontos: <code>D2:D8</code> quer dizer “da D2 até a D8”.<br>O <b>ponto e vírgula</b> <code>;</code> separa as partes de uma função.<br>Textos ficam entre <b>aspas</b>: <code>\"TI\"</code>.<br>Dica: dentro de uma fórmula, em vez de digitar o nome da célula, é só <b>clicar nela</b>.</div>",
+            "<p><b>🏋️ Aquecimento</b></p><p>Na célula amarela <code>F10</code>, some o salário da Ana com o do Bruno. Clique nela, digite <code>=D2+D3</code> (pode clicar nas células) e aperte Enter.</p>"];
+        function introOk() { return isF("F10") && near(val("F10"), C("D2") + C("D3")) }
+        function renderHome() {
+            var T = M.length + 1, st = Object.keys(done).length + (intro ? 1 : 0), gd = Object.keys(gold).length, e = [], rows = [], flat = [];
+            if (intro) e.push(gold.i ? 1 : 0); M.forEach(function (m, i) { if (done[i]) e.push(gold[i] ? 1 : 0) });
+            for (var r = 0; r < 7; r++) { var a = []; for (var j = 0; j < 2 * r + 1; j++) { a.push("^"); flat.push([r, j]) } rows.push(a) }
+            e.forEach(function (g, j) { var q = flat[(j * 11 + 5) % flat.length]; rows[q[0]][q[1]] = "<b class='" + (g ? "gs" : "ns") + "'>★</b>" });
+            var t = "      " + (st >= T ? "<b class='gs'>★</b>" : "*") + "\n"; rows.forEach(function (a, r) { t += "      ".slice(r) + a.join("") + "\n" }); t += "     |||";
+            var h = "<p class='mut'>Escolha uma lição no menu ao lado. Os dados são de exemplo, do dia a dia do RH. Resolva as missões para ganhar estrelas e enfeitar sua árvore.</p><div class='stats'><span>⭐ Estrelas <b>" + st + " / " + T + "</b></span><span>🌟 Estrelas de ouro <b>" + gd + " / " + T + "</b></span></div><p class='mut'>Estrela de ouro = missão resolvida sem abrir a dica.</p><pre class='tree'>" + t + "</pre><p class='mut' style='text-align:center'>" + (st ? "Continue ganhando estrelas para enfeitar a árvore." : "Sua árvore está vazia. Ganhe estrelas para decorá-la.") + "</p>";
+            document.getElementById("home").innerHTML = h
+        }
+        document.getElementById("nav").onclick = function (e) { var b = e.target.closest("[data-k]"); if (!b || b.disabled) return; var k = +b.dataset.k; if (k < 0) { view = "home"; refresh(); return } view = "day"; hint = false; if (k == 0) { rev = intro ? 1 : 0; if (rev) ip = 0; select("A1") } else { rev = 0; mi = k - 1; select(M[mi].c) } refresh() };
+        function fmt(v) { return isNum(v) ? v.toLocaleString("pt-BR", { maximumFractionDigits: 2 }) : String(v) }
+        function disp(ref) { var r = cells[ref]; if (r == null || r === "") return ""; if (r[0] == "=") return fmt(ev(r)); var n = Number(r); return (r.trim() !== "" && !isNaN(n)) ? fmt(n) : r }
+        var g = document.getElementById("g"), fx = document.getElementById("fx"), nb = document.getElementById("nb"), ms = document.getElementById("ms");
+        (function () {
+            var h = "<tr><th></th>"; for (var c = 0; c < 7; c++)h += "<th>" + CL(c) + "</th>"; h += "</tr>";
+            for (var r = 1; r <= 21; r++) { h += "<tr><th>" + r + "</th>"; for (c = 0; c < 7; c++)h += "<td data-r='" + CL(c) + r + "'></td>"; h += "</tr>" } g.innerHTML = h
+        })();
+        function all() { return all.c || (all.c = g.querySelectorAll("td")) }
+        function inI() { return !intro || rev }
+        function allDone() { return Object.keys(done).length >= M.length }
+        function refresh() {
+            M.forEach(function (m, i) { if (!done[i] && m.ok()) { done[i] = 1; if (!hinted[i]) gold[i] = 1; if (m.af) m.af() } });
+            Array.prototype.forEach.call(all(), function (td) { var r = td.dataset.r; td.textContent = disp(r); td.className = (r[1] == "1" && r.length == 2 ? "h" : "") + (r == sel ? " sel" : "") + ((inI() ? (ip == IT.length - 1 && r == "F10") : r == M[mi].c) ? " tg" : "") });
+            document.getElementById("pb").style.width = (Object.keys(done).length / M.length * 100) + "%";
+            save(); renderMs(); renderHome(); renderNav(); document.getElementById("home").style.display = view == "home" ? "" : "none"; document.getElementById("work").style.display = view == "home" ? "none" : ""
+        }
+        function renderMs() {
+            var n = Object.keys(done).length;
+            if (inI()) {
+                var L = IT.length - 1, ok = ip == L && introOk();
+                ms.innerHTML = IT[ip] + (ok ? "<p class='ok'>✓ Perfeito! Deu " + fmt(val("F10")) + ". Agora você já sabe o básico.</p>" : "") + "<div class='row'>" + (ip > 0 ? "<button class='btn g' data-a='ib'>← Voltar</button>" : "") + (ip < L ? "<button class='btn' data-a='ia'>Próximo →</button>" : "<button class='btn" + (ok ? "" : " g") + "' data-a='is'>Começar as missões →</button>") + "</div><p style='color:var(--mut);font-size:.85rem'>Passo " + (ip + 1) + " de " + IT.length + "</p>"; return
+            }
+            if (false) { ms.innerHTML = "<p class='ok'>🎉 Você concluiu as " + M.length + " missões!</p><p>Agora explore: mude os salários, troque a área de alguém e veja as fórmulas se atualizarem sozinhas.</p>"; return }
+            var m = M[mi], d = done[mi];
+            if (!d && !learned[mi]) { ms.innerHTML = "<p><b>📖 Lição " + (mi + 1) + " de " + M.length + ": " + m.t + "</b> (primeiro entenda, depois pratique)</p>" + LS[mi] + "<div class='row'><button class='btn g' data-a='p'>← Anterior</button><button class='btn' data-a='l'>Entendi, vamos praticar →</button></div>"; return }
+            ms.innerHTML = "<p><b>Missão " + (mi + 1) + " de " + M.length + ": " + m.t + "</b> (" + n + " concluídas)</p><p>" + m.x + "</p><p class='mut'>A célula amarela é só uma sugestão. Se você fizer a fórmula em outra célula e der o mesmo resultado, a missão também vale.</p>" + (d ? "<p class='ok'>✓ Correto! Muito bem.</p>" : "") + (hint && !d ? "<div class='tip'>Dica: <code>" + m.h.replace(/&/g, "&amp;").replace(/</g, "&lt;") + "</code></div>" : "") +
+                "<div class='row'><button class='btn g' data-a='p'>← Anterior</button><button class='btn g' data-a='r'>📖 Rever lição</button>" + (d ? "" : "<button class='btn g' data-a='h'>" + (hint ? "Esconder dica" : "Ver dica") + "</button>") + "<button class='btn" + (d ? "" : " g") + "' data-a='n'>" + (d ? "Próxima missão →" : "Pular →") + "</button></div>"
+        }
+        ms.onclick = function (e) { var a = e.target.dataset.a; if (!a) return; if (a == "c") view = "home"; else if (a == "ia") ip++; else if (a == "ib") ip--; else if (a == "is") { if (!intro && introOk()) gold.i = 1; intro = 1; rev = 0; delete cells["F10"]; select(M[mi].c) } else if (a == "h") { hint = !hint; if (hint) hinted[mi] = 1 } else if (a == "l") learned[mi] = 1; else if (a == "r") learned[mi] = 0; else { hint = false; mi = (mi + (a == "n" ? 1 : M.length - 1)) % M.length; select(M[mi].c) } refresh() };
+        function select(r) { sel = r; fx.value = cells[r] || ""; nb.textContent = r; dirty = false; Array.prototype.forEach.call(all(), function (td) { td.classList.toggle("sel", td.dataset.r == r) }) }
+        function commit() { if (!dirty) return; dirty = false; var v = fx.value; if (v.trim() === "") delete cells[sel]; else cells[sel] = v; refresh() }
+        fx.oninput = function () { dirty = true };
+        fx.onblur = commit;
+        fx.onkeydown = function (e) { if (e.key == "Enter") { commit(); var m = /([A-Z])(\d+)/.exec(sel); if (+m[2] < 21) select(m[1] + (+m[2] + 1)); fx.focus(); e.preventDefault() } else if (e.key == "Escape") { select(sel) } };
+        g.addEventListener("mousedown", function (e) {
+            var td = e.target.closest("td"); if (!td) return; e.preventDefault(); var r = td.dataset.r;
+            if (document.activeElement === fx && /^=/.test(fx.value) && /[=(;+\-*\/:,<>]$/.test(fx.value)) { fx.value += r; dirty = true; return }
+            commit(); select(r); if (window.matchMedia("(pointer:fine)").matches) fx.focus()
+        });
+        document.getElementById("rs").onclick = function () { cells = fresh(); select(sel); refresh() };
+        mi = 0; for (var i = 0; i < M.length; i++) { if (!done[i]) { mi = i; break } }
+        select(intro ? "D10" : "A1"); refresh();
+    </script>
+</body>
+
+</html>
